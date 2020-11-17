@@ -1277,6 +1277,13 @@ final class ClassSourceManipulator
 
     private function propertyExists(string $propertyName)
     {
+        $className = (string) $this->getClassNode()->namespacedName;
+        $reflectionClass = new \ReflectionClass($className);
+
+        if($reflectionClass->hasProperty($propertyName)){
+            return true;
+        }
+
         foreach ($this->getClassNode()->stmts as $i => $node) {
             if ($node instanceof Node\Stmt\Property && $node->props[0]->name->toString() === $propertyName) {
                 return true;
